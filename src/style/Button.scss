@@ -1,0 +1,36 @@
+.button-container {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 6px;
+    padding: .5rem 0;
+    
+    &.primary {
+        background-color: $accent-red;
+        color: white;
+    }
+
+    &.label-only {
+        h4 {
+            font-weight: 400;
+            color: $accent-lightblue;
+            transition: 120ms ease-out color;
+        }
+    }
+    
+    &:hover {
+        &.label-only {
+            h4 {
+                color: $accent-darkblue;
+            }
+        }
+    }
+
+    h4 {
+        font-family: $font-rubik;
+        font-weight: 600;
+    }
+}
