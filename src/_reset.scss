@@ -1,14 +1,33 @@
 html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Rubik', sans-serif;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: $font-rubik;
+    font-family: $font-sgrotesk;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 22px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $shade-2;
+  border-radius: 100rem;
+  border: 7px solid transparent;
+  background-clip: content-box;
+  
+  &:hover {
+    background-color: $secondary-dark-2;
+  }
 }
 
 body,
@@ -35,7 +54,6 @@ html:focus-within {
 }
 
 body {
-  min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
 }
@@ -55,6 +73,48 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1em;
+  margin-bottom: .4em;
+  font-family: $font-rubik;
+}
+
+p {
+  color: $secondary-dark-1;
+  font-size: .96rem;
+}
+
+a {
+  color: $accent-darkblue;
+  font-family: $font-rubik;
+  font-weight: 600;
+  font-size: .94rem;
+  text-decoration: none;
+}
+
+label {
+  color: $secondary-dark-1;
+  font-weight: 800;
+}
+
+.App {
+  background-color: white;
+  padding: 1rem 2rem;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
