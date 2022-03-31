@@ -1,0 +1,35 @@
+// font
+$font-rubik: 'Rubik', sans-serif;
+$font-sgrotesk: 'Space Grotesk', sans-serif;
+
+// dark
+$primary-dark: #1a2526;
+$secondary-dark-1: #394546;
+$secondary-dark-2: #5c6f70;
+
+// shade
+$shade-1: #98ACAE;
+$shade-2: #C3CFD0;
+$shade-3: #E2E8E9;
+$shade-4: #EEF1F2;
+$shade-5: #f6f7f9;
+
+// accent color
+$accent-red: #F87666;
+$accent-paleblue: #9AD1D8;
+$accent-lightblue: #59C3ED;
+$accent-darkblue: #19ace6;
+$accent-blue: #88bdf1;
+$accent-yellow: #FFD155;
+$accent-green: #34BF96;
+$accent-tosca: #5EBAAF;
+$accent-salmon: #fba050;
+$accent-purple: #C89AFE;
+$accent-whiteblue: #f5feff;
+
+@mixin page-content {
+    flex: 1;
+    width: 100%;
+    max-width: max(90%, 80rem);
+    padding: 1.6rem 2rem 1.2rem 2rem;
+}
