@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: "index.bundle.js",
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -27,12 +28,20 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: [path.resolve(__dirname, 'src/style/_globals.scss')]
+            }
+          },
         ],
       }
     ]
   },
   devServer: {
     static: path.resolve(__dirname, './src'),
+    historyApiFallback: true,
+    allowedHosts: "all",
     port: 3010,
   },
   plugins: [new MiniCssExtractPlugin({
