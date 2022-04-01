@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 
 import Navbar from './component/Navbar';
 
@@ -10,6 +11,11 @@ import About from './page/About';
 import Register from './page/Register';
 import SignIn from './page/SignIn';
 import Dashboard from './page/Dashboard';
+
+axios.defaults.baseURL = 'http://localhost:8000/';
+axios.defaults.withCredentials = true;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Accept'] = 'application/json';
 
 export default function App() {
   return (
