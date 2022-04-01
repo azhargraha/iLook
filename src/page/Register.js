@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 import Textfield from '../component/Textfield';
 import Button from '../component/Button';
@@ -34,7 +35,12 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(accountInfo);
+
+    axios.get('sanctum/csrf-cookie').then(response => {
+      axios.post('api/register', accountInfo)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+    });
   }
 
   useEffect(() => {
