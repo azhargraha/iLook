@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pariwisata extends Model
+class Paket extends Model
 {
     use HasFactory;
-    protected $table = 'pariwisata';
+    protected $table = 'paket';
     protected $primaryKey ='wisataID';
     protected $fillable = [
         'nama',
-        'kategoriID',
+        'deksripsi',
         'harga',
-        'lokasi',
-        'deskripsi',
-        'rating',
+        'planID',
     ];
 }
