@@ -8,6 +8,7 @@ html {
 *,
 *::before,
 *::after {
+  color: $primary-dark;
   box-sizing: border-box;
 }
 
