@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import gsap from 'gsap';
 import '../style/Navbar.scss';
 
-import { NavLink, Link } from 'react-router-dom';
+const fadeInUp = (y = -10, duration = .5, stagger = .2, staggerDirection = 1) => {
+  return {
+    y: y,
+    opacity: 0,
+    ease: 'Power3.easeOut',
+    delay: .3,
+    duration: duration,
+    stagger: {
+        each: stagger * staggerDirection
+    }
+  };
+};
 
 function Navbar() {
+  const logo = useRef(null);
+  const navMenus = useRef(null);
+  const accMenus = useRef(null);
+
+  useEffect(() => {
+    gsap.from(logo.current, fadeInUp(10, 1.4));
+    gsap.from(navMenus.current.childNodes, fadeInUp());
+    gsap.from(accMenus.current.childNodes, fadeInUp(10, 1, .4, -1));
+  }, []);
+
   return (
     <div className="navbar-container">
-        <div className="logo">
+        <div className="logo" ref={logo}>
           <Link to='/'>
             <svg width="100%" height="100%" viewBox="0 0 136 53" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M51.6148 44.2109C51.5202 44.2089 51.5265 44.276 51.4399 44.2742C47.7802 45.0539 30.3636 51.3791 26.7815 52.2154C26.0117 52.3757 25.2031 52.3984 24.4166 52.2817C23.6302 52.1651 22.8864 51.9121 22.2415 51.5418C21.5966 51.1716 21.0673 50.6938 20.6936 50.1445C20.3199 49.5952 20.1115 48.9886 20.0841 48.3707L19.9861 44.1026L19.7504 33.8776L19.4667 21.6405L19.2325 11.3485L19.1345 7.08046C19.11 6.01642 19.6331 4.99275 20.5886 4.23464C21.5441 3.47654 22.8538 3.04609 24.2295 3.038C25.6052 3.02991 26.9343 3.44484 27.9244 4.1915C28.9145 4.93817 29.4844 5.95541 29.5089 7.01945L29.6069 11.2875L29.8428 21.5064L30.15 33.744L30.3624 42.9386L48.6654 36.456C49.9918 36.185 51.4079 36.328 52.61 36.8543C53.8121 37.3806 54.7042 38.2483 55.095 39.2711C55.2889 39.7754 55.3527 40.3034 55.2827 40.8248C55.2127 41.3462 55.0102 41.8508 54.687 42.3096C54.3637 42.7684 53.926 43.1725 53.3988 43.4988C52.8716 43.825 52.2654 44.067 51.6148 44.2109ZM26.7296 6.20339L28.0174 40.0539L27.7313 6.1764C27.7188 6.07733 27.6614 5.98452 27.5692 5.91445C27.4771 5.84439 27.3561 5.80161 27.2278 5.79372C27.1588 5.79187 27.0901 5.80137 27.0265 5.82159C26.9628 5.8418 26.9055 5.87227 26.8585 5.91098C26.8114 5.9497 26.7755 5.99578 26.7533 6.04618C26.7311 6.09658 26.723 6.15016 26.7296 6.20339Z" fill="#1A2526"/>
@@ -25,13 +48,13 @@ function Navbar() {
             </svg>
           </Link>
         </div>
-        <div className="navmenus">
+        <div ref={navMenus} className="navmenus">
             <NavLink to="/" className="underline">Explore</NavLink>
             <NavLink to="/features" className="underline">Features</NavLink>
             <NavLink to="/privacy-policy" className="underline">Privacy policy</NavLink>
             <NavLink to="/about" className="underline">About</NavLink>
         </div>
-        <div className="account-menus">
+        <div ref={accMenus} className="account-menus">
           <NavLink to="/sign-in" className="underline">Sign in</NavLink>
           <NavLink to="/register" className="outline">Get started</NavLink>
         </div>
