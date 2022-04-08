@@ -1,5 +1,6 @@
 # dependencies directory
 /node_modules
+.env
 
 # binaries
 bin/
