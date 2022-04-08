@@ -1,8 +1,34 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+
 import '../style/Input.scss';
 
-function Textfield({ label, placeholder='', required=false, type='text', onChange=null }) {
+const fadeIn = () => {
+  return {
+    y: 10,
+    opacity: 0,
+    ease: 'Power3.easeOut',
+    delay: .2,
+    duration: 1.2
+  };
+};
+
+const expand = () => {
+  return {
+    opacity: 0,
+    ease: 'Power3.easeOut',
+    width: 0,
+    delay: .4,
+    duration: 1.2
+  };
+};
+
+function Textfield({ label, placeholder='', required=false, type='text', getInput=null, valueProp = '' }) {
+  const labelRef = useRef(null);
+  const inputRef = useRef(null);
+  
+  const [valueState, setValueState] = useState(valueProp);
   const [isView, setIsView] = useState(false);
   const [passwordType, setPasswordType] = useState(label.toLowerCase());
 
@@ -11,20 +37,32 @@ function Textfield({ label, placeholder='', required=false, type='text', onChang
     !isView === true ? setPasswordType('text') : setPasswordType('password');
   }
 
+  const onChangeInput = (e) => {
+    setValueState(e.target.value);
+    getInput(e.target.value);
+  };
+
   const preventKeydown = (e) => {
     if (e.keyCode === 38 || e.keyCode === 40) {
       e.preventDefault()
     }
   }
 
+  useEffect(() => {
+    gsap.from(labelRef.current, fadeIn());
+    gsap.from(inputRef.current, expand());
+  }, []);
+  
+
   return (
     <div className="textfield-container">
-        {label && <label htmlFor={label.toLowerCase()}>{label}</label>}
-        <div className="input-container">
+        {label && <label ref={labelRef} htmlFor={label.toLowerCase()}>{label}</label>}
+        <div ref={inputRef} className="input-container">
           <input type={type === 'password' ? passwordType : type} 
           placeholder={placeholder} 
           required={required}
-          onChange={e => onChange(e.target.value)}
+          onChange={onChangeInput}
+          value={valueState ? valueState : ''}
           onKeyDown={preventKeydown}
           />
           {
