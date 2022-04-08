@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+
+import gsap from 'gsap';
+
+const fadeIn = ({y = -10, duration = .5, stagger = .2, staggerDirection = 1, delay = .2}) => {
+  return {
+    opacity: 0,
+    ease: 'Power3.easeOut',
+    delay: delay,
+    duration: duration,
+    stagger: {
+        y: y,
+        each: stagger * staggerDirection
+    }
+  };
+};
 
 const TermsConditions = () => {
+  const heading = useRef(null);
+  const content = useRef(null);
+  const illustration = useRef(null);
+
+  useEffect(() => {
+    gsap.from(heading.current.childNodes, fadeIn({ y: 20, duration: 1 }));
+    gsap.from(illustration.current, fadeIn({ y: 20, duration: 1, delay: .8 }));
+    content.current.childNodes.forEach((item, idx) => {
+      gsap.from(item.childNodes, fadeIn({ y: 20, delay: (idx * .2) + .1, stagger: .1 }));
+    });
+  }, []);
+
   return (
     <div className="privacy-policy-container">
       <div className="heading-wrapper">
-        <div>
+        <div ref={heading}>
           <h1>Privacy policy</h1>
           <p>It is our responsibility to respect your privacy and comply with any applicable law and regulation regarding any personal information we may collect about you, including across our website.</p>
         </div>
 
-        <img src="../assets/image/sitting-1.png" />
+        <img ref={illustration} src="../assets/image/sitting-1.png" />
       </div>
-      <div className="content-wrapper">
+      <div ref={content} className="content-wrapper">
         <div>
           <h3>Information We Collect</h3>
           <p>Information we collect includes both information you knowingly and actively provide us when using or participating in any of our services and promotions, and any information automatically sent by your devices in the course of accessing our products and services.</p>
