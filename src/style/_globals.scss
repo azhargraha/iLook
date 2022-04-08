@@ -15,6 +15,7 @@ $shade-4: #EEF1F2;
 $shade-5: #f6f7f9;
 
 // accent color
+$accent-darkred: #f16957;
 $accent-red: #F87666;
 $accent-paleblue: #9AD1D8;
 $accent-lightblue: #59C3ED;
@@ -32,4 +33,9 @@ $accent-whiteblue: #f5feff;
     width: 100%;
     max-width: max(90%, 80rem);
     padding: 1.6rem 2rem 1.2rem 2rem;
+}
+
+.map-container {
+    width: 100%;
+    height: 100vh;
 }
