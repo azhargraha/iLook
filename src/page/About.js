@@ -1,10 +1,41 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+
+const fadeIn = ({ y = -10, duration = .5, stagger = .2, staggerDirection = 1, delay = .2 }) => {
+  return {
+    y: y,
+    opacity: 0,
+    ease: 'Power3.easeOut',
+    delay: delay,
+    duration: duration,
+    stagger: {
+        each: stagger * staggerDirection
+    }
+  };
+};
 
 const About = () => {
-  return (
-    <div className="about-container">
+  const content = useRef(null);
+  const section1 = useRef(null);
+  const section2 = useRef(null);
+  const section3 = useRef(null);
 
-      <div className="content-row">
+  useEffect(() => {
+    gsap.from(content.current.childNodes, fadeIn({ y: 0, duration: 1.4 }));
+    gsap.from(section1.current.childNodes, fadeIn({ y: 20 }));
+    gsap.from(section2.current.childNodes, fadeIn({ y: 20, delay: .4 }));
+    gsap.from(section3.current.childNodes, fadeIn({ y: 20, delay: .8 }));
+    section2.current.childNodes.forEach((child, idx) => {
+      gsap.from(child.childNodes, fadeIn({ y: 30, delay: .4 }));
+    });
+    section3.current.childNodes.forEach((child, idx) => {
+      gsap.from(child.childNodes, fadeIn({ y: 60, delay: .8, stagger: .15 }));
+    });
+  }, []);
+
+  return (
+    <div ref={content} className="about-container">
+      <div ref={section1} className="content-row">
         <h1>A brief story of us</h1>
         <div>
           <p><span><svg width="100%" height="100%" viewBox="0 0 136 53" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +56,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className="content-row">
+      <div ref={section2} className="content-row">
         <h1>What makes us different?</h1>
 
         <div>
@@ -46,29 +77,29 @@ const About = () => {
         </div>
       </div>
 
-      <div className="content-column">
+      <div ref={section3} className="content-column">
         <h1>Meet our hustler</h1>
 
         <div className="member-wrapper">
           <div className="member-card">
             <img src="../assets/image/hustler-1.png"/>
             <h3>Azhar Nugraha Darajat</h3>
-            <p>Project Leader</p>
+            <p>1301194064</p>
           </div>
           <div className="member-card">
             <img src="../assets/image/hustler-4.png"/>
             <h3>Chara Maria E.Y</h3>
-            <p>Project Leader</p>
+            <p>1301194348</p>
           </div>
           <div className="member-card">
             <img src="../assets/image/hustler-2.png"/>
             <h3>Ilo Raditio Wiriawan</h3>
-            <p>Project Leader</p>
+            <p>1301194198</p>
           </div>
           <div className="member-card">
             <img src="../assets/image/hustler-3.png"/>
             <h3>Muhammad Fachri Habibi</h3>
-            <p>Project Leader</p>
+            <p>1301194110</p>
           </div>
         </div>
       </div>
