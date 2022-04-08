@@ -9,8 +9,7 @@
     padding: .5rem 0;
     
     &.primary {
-        background-color: $accent-red;
-        color: white;
+        background-color: $accent-darkred;
     }
 
     &.label-only {
@@ -30,6 +29,7 @@
     }
 
     h4 {
+        color: white;
         font-family: $font-rubik;
         font-weight: 600;
     }
