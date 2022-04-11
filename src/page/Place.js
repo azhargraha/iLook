@@ -24,7 +24,7 @@ function useWindowSize() {
 const Place = () => {
   const windowWidth = useWindowSize();
 
-  const [placeData, setPlaceData] = useState(null);
+  const [placeData, setPlaceData] = useState([]);
   const [colNum, setColNum] = useState(5);
   const [inputValue, setInputValue] = useState(null);
 
@@ -41,13 +41,14 @@ const Place = () => {
     })
       .then(res => {
         setPlaceData(res.data.pariwisata);
+        console.log(res.data.pariwisata)
       })
       .catch(err => console.log(err));
 
     return () => {
       source.cancel();
     }
-  }, []);
+  }, [placeData.length]);
 
   useEffect(() => {
     if (windowWidth < 620) {
@@ -66,13 +67,13 @@ const Place = () => {
   return (
     <div className="place-container">
       <Searchbar placeholder="Search place here" getInput={setInputValue} value={state ? state : ''} onSubmit={searchSubmit} />
-      {placeData ? <Results columnsNumber={colNum} posts={placeData} /> : <p>Loading...</p>}
+      {placeData.length !== 0 ? <Results columnsNumber={colNum} posts={placeData} setPlaceData={setPlaceData} placeData={placeData} /> : <p>Loading...</p>}
       <Outlet />
     </div>
   )
 }
 
-const Results = ({ columnsNumber, posts }) => {
+const Results = ({ columnsNumber, posts, setPlaceData, placeData }) => {
   let [data, setData] = useState(null);
   let container = useRef(null);
 
@@ -91,7 +92,7 @@ const Results = ({ columnsNumber, posts }) => {
     });
 
     setData(dataTemp);
-  }, [columnsNumber]);
+  }, [columnsNumber, placeData.length]);
   
   useEffect(() => {
     if (data) {
@@ -122,7 +123,7 @@ const Results = ({ columnsNumber, posts }) => {
               {
                 post[`column-${i}`].map((props, key) => {
                   return (
-                    <PlaceCard key={key} src={props.urlGambar} name={props.nama} location={props.lokasi} />
+                    <PlaceCard key={props.wisataID} placeProps={props} setPlaceData={setPlaceData} placeData={placeData} />
                   )
                 })
               }
