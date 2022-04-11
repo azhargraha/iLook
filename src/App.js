@@ -17,6 +17,8 @@ import Discover from './page/Discover';
 import Place from './page/Place';
 import MyPackage from './page/MyPackage';
 import CreatePlace from './page/CreatePlace';
+import EditPlace from './page/EditPlace';
+import PlaceDetails from './page/PlaceDetails';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true;
@@ -52,7 +54,9 @@ export default function App() {
 
           {/* admin */}
           <Route path='/place' element={<Place />} />
+          <Route path='/place/:id' element={<PlaceDetails />} />
           <Route path='/place/create' element={<CreatePlace />} />
+          <Route path='/place/edit/:id' element={<EditPlace />} />
 
           <Route path='*' element={<Navigate to='/' replace />} />
         </Routes>
