@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    
+
     .form-wrapper {
         flex-basis: 36rem;
         display: flex;
@@ -15,59 +15,90 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            
-            .row {
-                margin-top: 2rem;
-                display: flex;
-
-                .section {
-                    display: none;
-                    flex: 1;
-
-                    &.active {
-                        display: block;
-                    }
-
-                    .fields-container {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 1.2rem;
-                    }
-                }
-            }
+            gap: 2rem;
             
             .section {
                 flex: 1;
+                flex-basis: 34rem;
+                overflow: auto;
 
                 .fields-container {
                     display: flex;
                     flex-direction: column;
                     gap: 1.2rem;
-                }
-            }
 
-            .submit-section-wrapper {
-                display: flex;
-                gap: 1rem;
-                flex-direction: column;
-                align-items: center;
+                    #drop-area-wrapper {
+                        #drop-area {
+                            position: relative;
+                            margin-top: .4rem;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            min-height: 10rem;
+                            height: 100%;
+                            border: 2px dashed $shade-3;
+                            border-radius: 8px;
+                            
+                            &.dragover {
+                                border: 2px dashed $accent-darkblue;
 
-                .buttons-wrapper {
-                    display: flex;
-                    gap: 1.5rem;
-                    width: 100%;
+                                p:first-child {
+                                    color: $accent-darkblue;
+                                }
+                            }
 
-                    button {
-                        &[type="button"] {
-                            flex: 1;
-                        }
+                            label {
+                                cursor: pointer;
+                                color: $accent-darkblue;
+                            }
 
-                        &[type="submit"] {
-                            flex: 4;
+                            input {
+                                display: none;
+                            }
+
+                            img {
+                                padding: .2rem;
+                                border-radius: 8px;
+                                height: 100%;
+                                width: 100%;
+                                object-fit: cover;
+                            }
+
+                            #button-wrapper {
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                height: 3rem;
+                                padding: .6rem;
+
+                                #delete-btn {
+                                    all: unset;
+                                    cursor: pointer;
+                                    height: 100%;
+                                    border-radius: 100rem;
+                                    background-color: rgb(255, 61, 61);
+                                    transition: 120ms ease-out background-color;
+                    
+                                    svg {
+                                        padding: .5rem;
+                    
+                                        path {
+                                            stroke: white;
+                                        }
+                                    }
+
+                                    &:hover {
+                                        background-color: red;
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
             }
+
         }
     }
 
