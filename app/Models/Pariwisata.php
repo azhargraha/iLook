@@ -23,6 +23,6 @@ class Pariwisata extends Model
 
     protected $with = ['kategori'];
     public function kategori(){
-        return $this->belongsTo(Kategori::class, 'kategoriID', 'id');
+        return $this->belongsTo(Kategori::class, 'kategoriID', 'kategoriID');
     }
 }
