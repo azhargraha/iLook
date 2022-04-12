@@ -9,6 +9,7 @@ use App\Models\Kategori;
 use App\Models\Paket;
 use App\Models\Planner;
 
+use App\Models\PlannerContainer;
 
 class ContentController extends Controller
 {
@@ -21,19 +22,50 @@ class ContentController extends Controller
     }
 
     public function showPlanner(){
-        $planner = Planner::all();
-        return response()->json([
-            'status' => 200,
-            'planner' => $planner,
-        ]);
+        if (auth('sanctum')->check()){
+            $user_id = auth('sanctum')->user()->id;
+            $plannerList = Planner::where('userID', $user_id)->get();
+            return response()->json([
+                'status' => 200,
+                'planner' => $plannerList,
+            ]);
+        }else {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Please login first',
+            ]);
+        }
+        
     }
 
     public function showPaket(){
-        $paket = Paket::all();
-        return response()->json([
-            'status'=>200,
-            'paket' => $paket,
-        ]);
+        if (auth('sanctum')->check()){
+            $user_id = auth('sanctum')->user()->id;
+            if ($user_id == 1) {
+                $paket = Paket::all();
+                return response()->json([
+                    'status'=>200,
+                    'paket' => $paket,
+                ]);
+            }else if ($user_id == 2){
+                $paket = Paket::where('userID', $user_id)->get();
+                return response()->json([
+                    'status' => 200,
+                    'paket' => $paket,
+                ]);
+            }else {
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'Access Denied',
+                ]);
+            }
+        }else {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Please login first',
+            ]);
+        }
+        
     }
 
     public function showKategori(){
@@ -58,6 +90,31 @@ class ContentController extends Controller
         return response()->json([
             'status'=>200,
             'pariwisata' => $pariwisata,
+        ]);
+    }
+    public function getPlannerByID($id){
+        if(auth('sanctum')->check()){
+            $planner = Planner::find($id);
+            $plannerContainer = PlannerContainer::where('planID', $id);
+            return response()->json([
+                'status'=>200,
+                'planner' => $planner,
+                'plannerContainer' => $plannerContainer,
+            ]);
+        }else {
+            return response()->json([
+                'status'=>401,
+                'message' => 'Please login first',
+            ]);
+        }
+        
+    }
+
+    public function getPaketByID($id){
+        $paket = Paket::find($id);
+        return response()->json([
+            'status'=>200,
+            'paket' => $paket,
         ]);
     }
 }
