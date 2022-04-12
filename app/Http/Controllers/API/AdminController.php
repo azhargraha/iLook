@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Pariwisata;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,10 +34,10 @@ class AdminController extends Controller
             $pariwisata->deskripsi = $request->deskripsi;
             $pariwisata->lokasi = $request->lokasi;
             
-            $gambar = $request->file('gambar');
-            $gambar_uploaded_path = $gambar->store('gambar', 'public');
+            $gambar = $request->file('urlGambar');
+            $gambar_uploaded_path = $gambar->store('gambar');
 
-            $pariwisata->urlGambar = Storage::disk('public')->url($gambar_uploaded_path);   
+            $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);   
             $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
@@ -67,7 +68,7 @@ class AdminController extends Controller
             'harga'=>'required',
             'deskripsi'=>'required',
             'lokasi'=>'required',
-            'urlGambar' => 'required|image|mimes:jpg,png,jpeg'
+            'urlGambar' => 'image|mimes:jpg,png,jpeg'
         ]);
     
         if($validator->fails()){
@@ -77,6 +78,7 @@ class AdminController extends Controller
             ]);
         }else{
             $pariwisata = Pariwisata::find($id);
+
             if($pariwisata){
                 $pariwisata->nama = $request->nama;
                 $pariwisata->kategoriID = $request->kategoriID;
@@ -84,11 +86,16 @@ class AdminController extends Controller
                 $pariwisata->deskripsi = $request->deskripsi;
                 $pariwisata->lokasi = $request->lokasi;
 
-                $gambar = $request->file('gambar');
-                $gambar_uploaded_path = $gambar->store('gambar', 'public');
+                if ($request->hasFile('urlGambar')) {
+                    $path = strstr($pariwisata->urlGambar, '/storage/');
+                    if(File::exists($path)){
+                        Storage::delete($path);
+                    }
+                    $gambar = $request->file('urlGambar');
+                    $gambar_uploaded_path = $gambar->store('gambar');
+                    $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);                
+                }
 
-                $pariwisata->urlGambar = Storage::disk('public')->url($gambar_uploaded_path);                
-                $pariwisata->rating = NULL;
                 $pariwisata->save();
                 return response()->json([
                     'status'=>200,
