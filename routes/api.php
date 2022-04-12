@@ -23,6 +23,11 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::get('pariwisata/', [ContentController::class, 'showPariwisata']);
+<<<<<<< HEAD
+=======
+Route::get('pariwisata/search/{lokasi}', [ContentController::class, 'searchPariwisata']);
+Route::get('pariwisata/{id}', [ContentController::class, 'getPariwisataByID']);
+>>>>>>> f8d62e8 (#)
 Route::post('pariwisata/create', [AdminController::class, 'createPariwisata']);
 Route::get('pariwisata/search/{lokasi}', [ContentController::class, 'searchPariwisata']);
 Route::get('pariwisata/{id}', [ContentController::class, 'getPariwisataByID']);
