@@ -34,7 +34,7 @@ class ContentController extends Controller
     }
 
     public function searchPariwisata($lokasi){
-        $pariwisata = Pariwisata::where('lokasi', $lokasi)->get();
+        $pariwisata = Pariwisata::whereRaw("lokasi REGEXP '" . $lokasi . "'")->get();
         return response()->json([
             'status'=>200,
             'pariwisata' => $pariwisata,
