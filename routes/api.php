@@ -24,10 +24,6 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('pariwisata/', [ContentController::class, 'showPariwisata']);
 Route::get('pariwisata/{lokasi}', [ContentController::class, 'searchPariwisata']);
 Route::get('pariwisata/{id}', [ContentController::class, 'getPariwisataByID']);
-Route::post('pariwisata/create', [AdminController::class, 'createPariwisata']);
-Route::get('pariwisata/edit/{id}', [AdminController::class, 'edit']);
-Route::put('pariwisata/update/{id}', [AdminController::class, 'update']);
-Route::delete('pariwisata/delete/{id}', [AdminController::class, 'delete']);
 
 Route::get('kategori/', [ContentController::class, 'showKategori']);
 
@@ -38,9 +34,12 @@ Route::put('paket/update/{id}', [AgencyController::class], 'update');
 Route::delete('paket/delete/{id}', [AgencyController::class], 'delete');
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/*
+Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function(){
+
 });
 
-//Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function(){
-//});
+Route::middleware(['auth:sanctum', 'isAPIAgency'])->group(function(){
+    
+});
+*/

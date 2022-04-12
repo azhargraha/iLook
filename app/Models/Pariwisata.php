@@ -17,5 +17,6 @@ class Pariwisata extends Model
         'lokasi',
         'deskripsi',
         'rating',
+        'urlGambar',
     ];
 }

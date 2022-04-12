@@ -40,6 +40,7 @@ class AuthController extends Controller
                     'password'=>Hash::make($request->password),
                     'name'=>$request->name,
                     'phoneNumber'=>$request->phoneNumber,
+                    'roleType' => 1,
                 ]);
             }else {
                 $user = User::create([
@@ -47,7 +48,8 @@ class AuthController extends Controller
                     'password'=>Hash::make($request->password),
                     'name'=>$request->name,
                     'phoneNumber'=>$request->phoneNumber,
-                    'location'=>$request->location
+                    'location'=>$request->location,
+                    'roleType' => 2,
                 ]);
             }
             $token = $user->createToken($user->username.'_Token')->plainTextToken;
@@ -79,7 +81,13 @@ class AuthController extends Controller
                     'message'=>'Invalid credentials',
                 ]);
             }else{
-                $token = $user->createToken($user->username.'_Token')->plainTextToken;
+                if($user->roleType == 0){
+                    $token = $user->createToken($user->username.'_AdminToken', ['server:admin'])->plainTextToken;
+                }else if ($user->roleType == 2){
+                    $token = $user->createToken($user->username.'_AgencyToken', ['server:agency'])->plainTextToken;
+                }else {
+                    $token = $user->createToken($user->username.'_Token', ['server:user'])->plainTextToken;
+                }
 
                 return response()->json([
                     'status'=>200,

@@ -16,7 +16,7 @@ class AdminController extends Controller
             'harga'=>'required',
             'deskripsi'=>'required',
             'lokasi'=>'required',
-            'urlGambar' => 'required'
+            'urlGambar' => 'required|image|mimes:jpg,png,jpeg'
         ]);
     
         if($validator->fails()){
@@ -26,12 +26,12 @@ class AdminController extends Controller
             ]);
         }else{
             $pariwisata = new Pariwisata;
-            $pariwisata->nama = $request->input('nama');
-            $pariwisata->kategoriID = $request->input('kategoriID');
-            $pariwisata->harga = $request->input('harga');
-            $pariwisata->deskripsi = $request->input('deskripsi');
-            $pariwisata->lokasi = $request->input('lokasi');
-            $pariwisata->urlGambar = $request->input('urlGambar');
+            $pariwisata->nama = $request->nama;
+            $pariwisata->kategoriID = $request->kategoriID;
+            $pariwisata->harga = $request->harga;
+            $pariwisata->deskripsi = $request->deskripsi;
+            $pariwisata->lokasi = $request->lokasi;
+            $pariwisata->urlGambar = $request->urlGambar;
             $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
@@ -62,7 +62,7 @@ class AdminController extends Controller
             'harga'=>'required',
             'deskripsi'=>'required',
             'lokasi'=>'required',
-            'urlGambar' => 'required'
+            'urlGambar' => 'required|image|mimes:jpg,png,jpeg'
         ]);
     
         if($validator->fails()){
