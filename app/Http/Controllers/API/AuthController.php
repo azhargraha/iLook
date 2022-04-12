@@ -13,19 +13,19 @@ class AuthController extends Controller
     public function register(Request $request){
         $role = $request->role;
         if ($role === 'user'){
-            $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->details, [
                 'username'=> 'required|unique:users,username',
                 'password'=>'required|min:8',
                 'name'=>'required',
                 'phoneNumber'=>'required',
             ]);
         }else {
-            $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->details, [
                 'username'=> 'required|unique:users,username',
                 'password'=>'required|min:8',
                 'name'=>'required',
                 'phoneNumber'=>'required',
-                'Location'=>'required',
+                'location'=>'required',
             ]);
         }
 
@@ -36,20 +36,20 @@ class AuthController extends Controller
         }else{
             if ($role === 'user'){
                 $user = User::create([
-                    'username'=>$request->username,
-                    'password'=>Hash::make($request->password),
-                    'name'=>$request->name,
-                    'phoneNumber'=>$request->phoneNumber,
-                    'roleType' => 1,
+                    'username'=>$request->details['username'],
+                    'password'=>Hash::make($request->details['password']),
+                    'name'=>$request->details['name'],
+                    'phoneNumber'=>$request->details['phoneNumber'],
+                    'roleType'=>1
                 ]);
             }else {
                 $user = User::create([
-                    'username'=>$request->username,
-                    'password'=>Hash::make($request->password),
-                    'name'=>$request->name,
-                    'phoneNumber'=>$request->phoneNumber,
-                    'location'=>$request->location,
-                    'roleType' => 2,
+                    'username'=>$request->details['username'],
+                    'password'=>Hash::make($request->details['password']),
+                    'name'=>$request->details['name'],
+                    'phoneNumber'=>$request->details['phoneNumber'],
+                    'location'=>$request->details['location'],
+                    'roleType'=>2
                 ]);
             }
             $token = $user->createToken($user->username.'_Token')->plainTextToken;
@@ -93,7 +93,7 @@ class AuthController extends Controller
                     'status'=>200,
                     'username'=>$user->name,
                     'token'=>$token,
-                    'message'=>'Registered Successfully',
+                    'message'=>'Signed in Successfully'
                 ]);
             }
         }
