@@ -6,6 +6,7 @@ use App\Models\Pariwisata;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -31,11 +32,11 @@ class AdminController extends Controller
             $pariwisata->harga = $request->harga;
             $pariwisata->deskripsi = $request->deskripsi;
             $pariwisata->lokasi = $request->lokasi;
-            
-            $gambar = $request->file('gambar');
+
+            $gambar = $request->file('urlGambar');
             $gambar_uploaded_path = $gambar->store('gambar', 'public');
 
-            $pariwisata->urlGambar = Storage::disk('public')->url($image_uploaded_path);   
+            $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);   
             $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
@@ -83,11 +84,16 @@ class AdminController extends Controller
                 $pariwisata->deskripsi = $request->deskripsi;
                 $pariwisata->lokasi = $request->lokasi;
 
-                $gambar = $request->file('gambar');
-                $gambar_uploaded_path = $gambar->store('gambar', 'public');
-
-                $pariwisata->urlGambar = Storage::disk('public')->url($image_uploaded_path);                
-                $pariwisata->rating = NULL;
+                if($request->hasFile('urlGambar')){
+                    $gambarURL = $pariwisata->urlGambar;
+                    $path = substr($gambarURL, strpos($gambarURL, 'gambar/') + 7);
+                    if(Storage::disk('gambar')->exists($path)){
+                        Storage::disk('gambar')->delete($path);
+                    }
+                    $gambar = $request->file('urlGambar');
+                    $gambar_uploaded_path = $gambar->store('urlGambar', 'public');
+                    $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);
+                }              
                 $pariwisata->save();
                 return response()->json([
                     'status'=>200,
