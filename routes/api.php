@@ -33,13 +33,10 @@ Route::get('paket/edit{id}', [AgencyController::class], 'edit');
 Route::put('paket/update/{id}', [AgencyController::class], 'update');
 Route::delete('paket/delete/{id}', [AgencyController::class], 'delete');
 
-
-/*
-Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function(){
-
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
 Route::middleware(['auth:sanctum', 'isAPIAgency'])->group(function(){
     
 });
-*/

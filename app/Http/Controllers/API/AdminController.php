@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Pariwisata;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -35,7 +36,7 @@ class AdminController extends Controller
             $gambar = $request->file('gambar');
             $gambar_uploaded_path = $gambar->store('gambar', 'public');
 
-            $pariwisata->urlGambar = Storage::disk('public')->url($image_uploaded_path);   
+            $pariwisata->urlGambar = Storage::disk('public')->url($gambar_uploaded_path);   
             $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
@@ -86,7 +87,7 @@ class AdminController extends Controller
                 $gambar = $request->file('gambar');
                 $gambar_uploaded_path = $gambar->store('gambar', 'public');
 
-                $pariwisata->urlGambar = Storage::disk('public')->url($image_uploaded_path);                
+                $pariwisata->urlGambar = Storage::disk('public')->url($gambar_uploaded_path);                
                 $pariwisata->rating = NULL;
                 $pariwisata->save();
                 return response()->json([
