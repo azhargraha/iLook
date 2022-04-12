@@ -41,4 +41,11 @@ class ContentController extends Controller
         ]);
     }
 
+    public function getPariwisataByID($id){
+        $pariwisata = Pariwisata::where('lokasi', $lokasi)->get();
+        return response()->json([
+            'status'=>200,
+            'pariwisata' => $pariwisata,
+        ]);
+    }
 }
