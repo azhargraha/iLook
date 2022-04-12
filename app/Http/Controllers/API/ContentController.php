@@ -13,7 +13,15 @@ class ContentController extends Controller
         $pariwisata = Pariwisata::all();
         return response()->json([
             'status'=>200,
-            'pariwisasta' => $pariwisata,
+            'pariwisata' => $pariwisata,
+        ]);
+    }
+
+    public function showPlanner(){
+        $planner = Planner::all();
+        return response()->json([
+            'status' => 200,
+            'planner' => $planner,
         ]);
     }
 

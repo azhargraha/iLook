@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Kategori;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,4 +20,9 @@ class Pariwisata extends Model
         'rating',
         'urlGambar',
     ];
+
+    protected $with = ['kategori'];
+    public function kategori(){
+        return $this->belongsTo(Kategori::class, 'kategoriID', 'id');
+    }
 }

@@ -31,7 +31,11 @@ class AdminController extends Controller
             $pariwisata->harga = $request->harga;
             $pariwisata->deskripsi = $request->deskripsi;
             $pariwisata->lokasi = $request->lokasi;
-            $pariwisata->urlGambar = $request->urlGambar;
+            
+            $gambar = $request->file('gambar');
+            $gambar_uploaded_path = $gambar->store('gambar', 'public');
+
+            $pariwisata->urlGambar = Storage::disk('public')->url($image_uploaded_path);   
             $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
@@ -78,7 +82,11 @@ class AdminController extends Controller
                 $pariwisata->harga = $request->harga;
                 $pariwisata->deskripsi = $request->deskripsi;
                 $pariwisata->lokasi = $request->lokasi;
-                $pariwisata->urlGambar = $request->urlGambar;
+
+                $gambar = $request->file('gambar');
+                $gambar_uploaded_path = $gambar->store('gambar', 'public');
+
+                $pariwisata->urlGambar = Storage::disk('public')->url($image_uploaded_path);                
                 $pariwisata->rating = NULL;
                 $pariwisata->save();
                 return response()->json([
