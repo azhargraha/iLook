@@ -42,7 +42,7 @@ class ContentController extends Controller
     }
 
     public function getPariwisataByID($id){
-        $pariwisata = Pariwisata::where('lokasi', $lokasi)->get();
+        $pariwisata = Pariwisata::find($id);
         return response()->json([
             'status'=>200,
             'pariwisata' => $pariwisata,

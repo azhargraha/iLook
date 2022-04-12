@@ -23,6 +23,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::get('pariwisata/', [ContentController::class, 'showPariwisata']);
 Route::get('pariwisata/{lokasi}', [ContentController::class, 'searchPariwisata']);
+Route::get('pariwisata/{id}', [ContentController::class, 'getPariwisataByID']);
 Route::post('pariwisata/create', [AdminController::class, 'createPariwisata']);
 Route::get('pariwisata/edit/{id}', [AdminController::class, 'edit']);
 Route::put('pariwisata/update/{id}', [AdminController::class, 'update']);
