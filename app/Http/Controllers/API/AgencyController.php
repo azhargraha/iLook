@@ -22,22 +22,22 @@ class AgencyController extends Controller
                 'validation_errors' => $validator->messages(),
             ]);
         }else{
-            if (auth('sanctum')->check()){
+            // if (auth('sanctum')->check()){
                 $paket = new Paket;
                 $paket->nama = $request->nama;
                 $paket->deskripsi = $request->deskripsi;
-                $paket->userID = auth('sanctum')->user()->id;
+                // $paket->userID = auth('sanctum')->user()->id;
                 $paket->save();
                 return response()->json([
                     'status'=>200,
                     'message'=>'Data has been added successfully',
                 ]);
-            }else {
-                return response()->json([
-                    'status' => 401,
-                    'message' => 'Please login first',
-                ]);
-            }
+            // }else {
+            //     return response()->json([
+            //         'status' => 401,
+            //         'message' => 'Please login first',
+            //     ]);
+            // }
             
         }
     }

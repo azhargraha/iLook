@@ -10,5 +10,9 @@ class Planner extends Model
     use HasFactory;
     protected $table = 'planner';
     protected $primaryKey = 'planID';
-
+    protected $fillable = [
+        'nama',
+        'start_at',
+        'end_at',
+    ];
 }

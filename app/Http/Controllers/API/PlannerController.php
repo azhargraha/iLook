@@ -23,9 +23,9 @@ class PlannerController extends Controller
                 'validation_errors' => $validator->messages(),
             ]);
         }else{
-            if(auth('sanctum')->check()){
+            // if(auth('sanctum')->check()){
                 $planner = new Planner;
-                $planner->userID = auth('sanctum')->user()->id;
+                // $planner->userID = auth('sanctum')->user()->id;
                 $planner->nama = $request->nama;
                 $planner->start_at = $request->start_at;
                 $planner->end_at = $request->end_at;
@@ -35,12 +35,12 @@ class PlannerController extends Controller
                     'message'=> 'Planner created successfully'
                 ]);
 
-            }else {
-                return response()->json([
-                    'status'=>401,
-                    'message'=> 'Please login first'
-                ]);
-            }
+            // }else {
+            //     return response()->json([
+            //         'status'=>401,
+            //         'message'=> 'Please login first'
+            //     ]);
+            // }
         }
     }
 

@@ -9,11 +9,11 @@ class Paket extends Model
 {
     use HasFactory;
     protected $table = 'paket';
-    protected $primaryKey ='wisataID';
+    protected $primaryKey ='paketID';
     protected $fillable = [
         'nama',
         'deksripsi',
-        'harga',
-        'planID',
+        // 'harga',
+        // 'planID',
     ];
 }
