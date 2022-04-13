@@ -1,4 +1,4 @@
-.create-place-container {
+.create-plan-container {
     @include page-content;
     display: flex;
     justify-content: center;
@@ -97,7 +97,7 @@
                         }
                     }
 
-                    .category-container {
+                    .date-container {
                         position: relative;
                         display: flex;
                         flex-direction: column;
@@ -117,7 +117,7 @@
                             animation-delay: 1000ms;
                         }
 
-                        select {
+                        input {
                             all: unset;
                             border-radius: 6px;
                             overflow: hidden;

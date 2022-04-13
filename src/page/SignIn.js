@@ -1,12 +1,14 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import gsap from 'gsap';
+import CookieService from '../CookieService';
 
 import Textfield from '../component/Textfield';
 import Button from '../component/Button';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { TokenContext } from '../App';
 
 
 const fadeIn = ({y = 20, duration = 1, stagger = .2, staggerDirection = 1, delay = .2}) => {
@@ -25,6 +27,9 @@ const fadeIn = ({y = 20, duration = 1, stagger = .2, staggerDirection = 1, delay
 const SignIn = () => {
   const { state } = useLocation();
 
+  const tokenContext = useContext(TokenContext);
+  const [token, tokenDispatch] = tokenContext.reducer;
+
   const heading = useRef(null);
   const footer = useRef(null);
 
@@ -42,7 +47,9 @@ const SignIn = () => {
     axios.get('sanctum/csrf-cookie').then(response => {
       axios.post('api/login', authInfo)
           .then(res => {
+            console.log(res)
             if (res.data.status === 200) {
+              tokenDispatch({ type: 'signIn', token: res.data.token });
               navigate('/');
             } else {
               setAuthFail(true);

@@ -19,11 +19,27 @@
             transition: 120ms ease-out color;
         }
     }
+
+    &.danger {
+        width: fit-content;
+        padding: 0;
+        
+        h4 {
+            color: $accent-red;
+            transition: 120ms ease-out color;
+        }
+    }
     
     &:hover {
         &.label-only {
             h4 {
                 color: $accent-darkblue;
+            }
+        }
+
+        &.danger {
+            h4 {
+                color: $accent-darkred
             }
         }
     }

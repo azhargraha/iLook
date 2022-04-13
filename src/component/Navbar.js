@@ -1,7 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import gsap from 'gsap';
+import CookieService from '../CookieService';
 import '../style/Navbar.scss';
+import Button from './Button';
+import { TokenContext } from '../App';
 
 const fadeInUp = (y = -10, duration = .5, stagger = .2, staggerDirection = 1) => {
   return {
@@ -17,14 +20,24 @@ const fadeInUp = (y = -10, duration = .5, stagger = .2, staggerDirection = 1) =>
 };
 
 function Navbar() {
+  const tokenContext = useContext(TokenContext);
+  const [token, tokenDispatch] = tokenContext.reducer;
+
   const logo = useRef(null);
   const navMenus = useRef(null);
   const accMenus = useRef(null);
+
+  const logout = (e) => {
+    e.preventDefault();
+
+    tokenDispatch({ type: 'signOut' });
+  }
 
   useEffect(() => {
     gsap.from(logo.current, fadeInUp(10, 1.4));
     gsap.from(navMenus.current.childNodes, fadeInUp());
     gsap.from(accMenus.current.childNodes, fadeInUp(10, 1, .4, -1));
+    console.log(token)
   }, []);
 
   return (
@@ -50,13 +63,20 @@ function Navbar() {
         </div>
         <div ref={navMenus} className="navmenus">
             <NavLink to="/" className="underline">Explore</NavLink>
-            <NavLink to="/features" className="underline">Features</NavLink>
+            <NavLink to="/place" className="underline">Places</NavLink>
             <NavLink to="/privacy-policy" className="underline">Privacy policy</NavLink>
             <NavLink to="/about" className="underline">About</NavLink>
         </div>
         <div ref={accMenus} className="account-menus">
-          <NavLink to="/sign-in" className="underline">Sign in</NavLink>
-          <NavLink to="/register" className="outline">Get started</NavLink>
+          {
+            token ? <Button label='Sign out' onClick={logout} style="danger" />
+            : (
+              <>
+                <NavLink to="/sign-in" className="underline">Sign in</NavLink>
+                <NavLink to="/register" className="outline">Get started</NavLink>
+              </>
+            )
+          }
         </div>
     </div>
   )

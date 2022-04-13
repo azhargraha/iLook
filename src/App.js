@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useReducer, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import gsap from 'gsap';
+import CookieService from './CookieService';
 
 import Navbar from './component/Navbar';
 
@@ -12,13 +13,15 @@ import About from './page/About';
 import Register from './page/Register';
 import SignIn from './page/SignIn';
 import Plan from './page/Plan';
-import Package from './page/Package';
 import Discover from './page/Discover';
 import Place from './page/Place';
 import MyPackage from './page/MyPackage';
+import Package from './page/Package';
 import CreatePlace from './page/CreatePlace';
 import EditPlace from './page/EditPlace';
 import PlaceDetails from './page/PlaceDetails';
+import CreatePackage from './page/CreatePackage';
+import CreatePlan from './page/CreatePlan';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true;
@@ -31,35 +34,66 @@ gsap.config({
   trialWarn: false,
 });
 
+export const TokenContext = React.createContext();
+
+const authReducer = (state, action) => {
+  switch(action.type) {
+      case 'signIn':
+          CookieService.set('access_token', action.token, { path: '/' });
+          return action.token;
+      case 'signOut':
+          CookieService.remove('access_token');
+          return null;
+      case 'get':
+          return CookieService.get('access_token');
+      default:
+          return state;
+  }
+};
+
 export default function App() {
+  const [token, tokenDispatch] = useReducer(authReducer, null);
+
+  useEffect(() => {
+    tokenDispatch({ type: 'get' });
+  }, []);
+
   return (
     <Router>
       <div className="App">
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Explore />} />
-          <Route path='/features' element={<Features />} />
-          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/discover' element={<Discover />} />
+        <TokenContext.Provider
+          value={{
+            reducer: [token, tokenDispatch]
+          }}
+        >
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Explore />} />
+            <Route path='/features' element={<Features />} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/sign-in' element={<SignIn />} />
+            <Route path='/discover' element={<Discover />} />
 
-          {/* user */}
-          <Route path='/plans' element={<Plan />} />
-          <Route path='/packages' element={<Package />} />
+            {/* user */}
+            <Route path='/plan' element={<Plan />} />
+            <Route path='/plan/create' element={<CreatePlan />} />
+            <Route path='/package' element={<Package />} />
 
-          {/* tourguide */}
-          <Route path='/my-packages' element={<MyPackage />} />
+            {/* tourguide */}
+            <Route path='/my-package' element={<MyPackage />} />
+            <Route path='/package/create' element={<CreatePackage />} />
 
-          {/* admin */}
-          <Route path='/place' element={<Place />} />
-          <Route path='/place/:id' element={<PlaceDetails />} />
-          <Route path='/place/create' element={<CreatePlace />} />
-          <Route path='/place/edit/:id' element={<EditPlace />} />
+            {/* admin */}
+            <Route path='/place' element={<Place />} />
+            <Route path='/place/:id' element={<PlaceDetails />} />
+            <Route path='/place/create' element={<CreatePlace />} />
+            <Route path='/place/edit/:id' element={<EditPlace />} />
 
-          <Route path='*' element={<Navigate to='/' replace />} />
-        </Routes>
+            <Route path='*' element={<Navigate to='/' replace />} />
+          </Routes>
+        </TokenContext.Provider>
       </div>
     </Router>
   )

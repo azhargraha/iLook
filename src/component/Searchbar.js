@@ -34,10 +34,17 @@ const Searchbar = ({ placeholder = '', withAnimation = false, value = '', getInp
 
   useEffect(() => {
     if (withAnimation) gsap.from(searchbar.current, expand());
+
+    if (valueState !== '') {
+      setIsType(true);
+    } else {
+      setIsType(false);
+    }
   }, []);
 
   const clearInput = () => {
     setValueState('');
+    getInput('');
     setIsType(false);
   };
 

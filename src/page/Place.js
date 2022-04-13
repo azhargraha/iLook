@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Searchbar from '../component/Searchbar';
 
 import PlaceCard from '../component/PlaceCard';
+import Button from '../component/Button';
 import gsap from 'gsap';
 
 import '../style/Place.scss';
@@ -22,33 +23,56 @@ function useWindowSize() {
 }
 
 const Place = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+
   const windowWidth = useWindowSize();
 
   const [placeData, setPlaceData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [colNum, setColNum] = useState(5);
-  const [inputValue, setInputValue] = useState(null);
+  const [inputValue, setInputValue] = useState(state ? state : '');
 
-  const { state } = useLocation();
-
-  const searchSubmit = (e) => {
+  const createNewPlace = (e) => {
     e.preventDefault();
+    navigate('/place/create');
   }
 
   useEffect(() => {
     const source = axios.CancelToken.source();
-    axios.get('api/pariwisata/', {
-      cancelToken: source.token
-    })
-      .then(res => {
-        setPlaceData(res.data.pariwisata);
-        console.log(res.data.pariwisata)
+
+    setIsLoading(true);
+    if (inputValue === '') {
+      axios.get(`api/pariwisata/`, {
+        cancelToken: source.token
       })
-      .catch(err => console.log(err));
+        .then(res => {
+          setPlaceData(res.data.pariwisata);
+          console.log(res.data.pariwisata)
+        })
+        .then(r => {
+          setIsLoading(false);
+        })
+        .catch(err => console.log(err));
+    } else {
+      axios.get(`api/pariwisata/search/${inputValue}`, {
+        cancelToken: source.token
+      })
+        .then(res => {
+          setPlaceData(res.data.pariwisata);
+          console.log(res.data.pariwisata)
+        })
+        .then(r => {
+          setIsLoading(false);
+        })
+        .catch(err => console.log(err));
+
+    }
 
     return () => {
       source.cancel();
     }
-  }, [placeData.length]);
+  }, [inputValue]);
 
   useEffect(() => {
     if (windowWidth < 620) {
@@ -66,9 +90,11 @@ const Place = () => {
 
   return (
     <div className="place-container">
-      <Searchbar placeholder="Search place here" getInput={setInputValue} value={state ? state : ''} onSubmit={searchSubmit} />
-      {placeData.length !== 0 ? <Results columnsNumber={colNum} posts={placeData} setPlaceData={setPlaceData} placeData={placeData} /> : <p>Loading...</p>}
-      <Outlet />
+      <Searchbar placeholder="Search place here" getInput={setInputValue} value={inputValue} onSubmit={e => e.preventDefault()} />
+      <Button label='Create new place' onClick={createNewPlace} />
+      {isLoading === true && (<p>Loading...</p>)}
+      {placeData.length !== 0 && isLoading === false && (<Results columnsNumber={colNum} posts={placeData} setPlaceData={setPlaceData} placeData={placeData} />)}
+      {placeData.length === 0 && isLoading === false && (<p>Not found</p>)}
     </div>
   )
 }

@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const PlaceCard = ({ placeProps, setPlaceData, placeData }) => {
   const {
-    deskripsi, harga, kategoriID, lokasi, nama, rating, urlGambar, wisataID
+    deskripsi, harga, kategoriID, lokasi, nama, rating, urlGambar, wisataID, kategori
   } = placeProps;
   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ const PlaceCard = ({ placeProps, setPlaceData, placeData }) => {
     e.preventDefault();
     e.stopPropagation();
     
-    axios.delete(`api/pariwisata/delete/${wisataID}`)
+    axios.delete(`api/pariwisata/${wisataID}`)
       .then(res => setPlaceData(placeData.filter(data => data.wisataID !== wisataID)));
   }
 
