@@ -13,8 +13,8 @@ class PlannerController extends Controller
     public function createPlanner(Request $request){
         $validator = Validator::make($request->all(), [
             'nama'=> 'required',
-            'start_at' => 'required|date_format:m/d/Y',
-            'end_at' => 'required|date_format:m/d/Y|after_or_equal:start_date',
+            'start_at' => 'required|date',
+            'end_at' => 'required|date|after_or_equal:start_date',
         ]);
 
         if($validator->fails()){
