@@ -23,7 +23,7 @@ class PlannerController extends Controller
                 'validation_errors' => $validator->messages(),
             ]);
         }else{
-            // if(auth('sanctum')->check()){
+            if(auth('sanctum')->check()){
                 $planner = new Planner;
                 // $planner->userID = auth('sanctum')->user()->id;
                 $planner->nama = $request->nama;
@@ -35,12 +35,12 @@ class PlannerController extends Controller
                     'message'=> 'Planner created successfully'
                 ]);
 
-            // }else {
-            //     return response()->json([
-            //         'status'=>401,
-            //         'message'=> 'Please login first'
-            //     ]);
-            // }
+            }else {
+                return response()->json([
+                    'status'=>401,
+                    'message'=> 'Please login first'
+                ]);
+            }
         }
     }
 
@@ -92,10 +92,10 @@ class PlannerController extends Controller
         if(auth('sanctum')->check()){
             $planner = Planner::find($id);
             if($planner){
-                $plan->delete();
-                if (PlannerContainer::where('planID', $id)->exists()){
-                    PlannerContainer::where('planID', $id)->delete();
-                }
+                $planner->delete();
+                // if (PlannerContainer::where('planID', $id)->exists()){
+                //     PlannerContainer::where('planID', $id)->delete();
+                // }
                 return response()->json([
                     'status'=>200,
                     'message'=>'Data pariwisata has been deleted',
