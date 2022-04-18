@@ -23,11 +23,13 @@ class ContentController extends Controller
 
     public function showPlanner(){
         if (auth('sanctum')->check()){
-            $user_id = auth('sanctum')->user()->id;
-            $plannerList = Planner::where('userID', $user_id)->get();
+            $user_id = auth('sanctum')->user();
+            // $plannerList = Planner::where('userID', $user_id)->get();
+            $plannerList = Planner::all();
             return response()->json([
                 'status' => 200,
                 'planner' => $plannerList,
+                'user_id' => $user_id
             ]);
         }else {
             return response()->json([
