@@ -93,7 +93,7 @@ class AdminController extends Controller
                         Storage::disk('gambar')->delete($path);
                     }
                     $gambar = $request->file('urlGambar');
-                    $gambar_uploaded_path = $gambar->store('urlGambar', 'public');
+                    $gambar_uploaded_path = $gambar->store('gambar', 'public');
                     $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);
                 }              
                 $pariwisata->save();
