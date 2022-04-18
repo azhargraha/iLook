@@ -1,5 +1,5 @@
 import React, { useReducer, useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import gsap from 'gsap';
 import CookieService from './CookieService';
@@ -21,12 +21,17 @@ import CreatePlace from './page/CreatePlace';
 import EditPlace from './page/EditPlace';
 import PlaceDetails from './page/PlaceDetails';
 import CreatePackage from './page/CreatePackage';
-import CreatePlan from './page/CreatePlan';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
+axios.interceptors.request.use(function (config) {
+  const token = CookieService.get('access_token');
+  config.headers.Authorization = token ? `Bearer ${token}` : '';
+  return config;
+});
+
 
 gsap.config({
   force3D: false,
@@ -42,7 +47,17 @@ const authReducer = (state, action) => {
           CookieService.set('access_token', action.token, { path: '/' });
           return action.token;
       case 'signOut':
-          CookieService.remove('access_token');
+          axios.get('sanctum/csrf-cookie').then(response => {
+            axios.post('api/logout')
+                .then(res => {
+                  console.log(res)
+                  if (res.data.status === 200) {
+                    CookieService.remove('access_token');
+                  }
+                })
+                .catch(err => console.log(err));
+          });
+
           return null;
       case 'get':
           return CookieService.get('access_token');
@@ -78,7 +93,6 @@ export default function App() {
 
             {/* user */}
             <Route path='/plan' element={<Plan />} />
-            <Route path='/plan/create' element={<CreatePlan />} />
             <Route path='/package' element={<Package />} />
 
             {/* tourguide */}
