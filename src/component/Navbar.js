@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import CookieService from '../CookieService';
 import '../style/Navbar.scss';
@@ -20,6 +20,8 @@ const fadeInUp = (y = -10, duration = .5, stagger = .2, staggerDirection = 1) =>
 };
 
 function Navbar() {
+  const navigate = useNavigate();
+
   const tokenContext = useContext(TokenContext);
   const [token, tokenDispatch] = tokenContext.reducer;
 
@@ -31,6 +33,7 @@ function Navbar() {
     e.preventDefault();
 
     tokenDispatch({ type: 'signOut' });
+    navigate('/');
   }
 
   useEffect(() => {
@@ -64,6 +67,8 @@ function Navbar() {
         <div ref={navMenus} className="navmenus">
             <NavLink to="/" className="underline">Explore</NavLink>
             <NavLink to="/place" className="underline">Places</NavLink>
+            <NavLink to="/plan" className="underline">Plans</NavLink>
+            <NavLink to="/package" className="underline">Packages</NavLink>
             <NavLink to="/privacy-policy" className="underline">Privacy policy</NavLink>
             <NavLink to="/about" className="underline">About</NavLink>
         </div>

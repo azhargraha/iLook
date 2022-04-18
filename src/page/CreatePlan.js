@@ -50,7 +50,7 @@ const CreatePlan = () => {
         let year = value[0];
         let month = value[1];
         let day = value[2];
-        value = month + '/' + day + '/' + year;
+        value = year + '-' + month + '-' + day;
 
         setPlanData({
             ...planData,
@@ -63,7 +63,7 @@ const CreatePlan = () => {
         let year = value[0];
         let month = value[1];
         let day = value[2];
-        value = month + '/' + day + '/' + year;
+        value = year + '-' + month + '-' + day;
 
         setPlanData({
             ...planData,
