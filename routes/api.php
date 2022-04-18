@@ -21,30 +21,24 @@ use App\Http\Controllers\API\PlannerController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+// Route::post('logout', [AuthController::class, 'logout']);
+
 
 Route::get('pariwisata/', [ContentController::class, 'showPariwisata']);
-Route::post('pariwisata/create', [AdminController::class, 'createPariwisata']);
 Route::get('pariwisata/search/{lokasi}', [ContentController::class, 'searchPariwisata']);
 Route::get('pariwisata/{id}', [ContentController::class, 'getPariwisataByID']);
-Route::delete('pariwisata/{id}', [AdminController::class, 'delete']);
-Route::post('pariwisata/update/{id}', [AdminController::class, 'update']);
 
 Route::get('kategori/', [ContentController::class, 'showKategori']);
 
 Route::get('paket/', [ContentController::class, 'showPaket']);
 Route::get('paket/{id}', [ContentController::class, 'getPaketByID']);
-Route::post('paket/create', [AgencyController::class, 'createPaket']);
-Route::get('paket/edit{id}', [AgencyController::class, 'edit']);
-Route::post('paket/update/{id}', [AgencyController::class, 'update']);
-Route::delete('paket/delete/{id}', [AgencyController::class, 'delete']);
 
 Route::get('planner/', [ContentController::class, 'showPlanner']);
 Route::get('planner/{id}', [ContentController::class, 'getPlannerByID']);
 Route::post('planner/create', [PlannerController::class, 'createPlanner']);
 Route::post('planner/{id}/add/{wisataID}', [PlannerController::class, 'addToPlanner']);
-Route::delete('planet/delete/{id}', [PlannerController::class, 'delete']);
+Route::delete('planner/delete/{id}', [PlannerController::class, 'delete']);
 
-/*
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function(){
     Route::post('pariwisata/create', [AdminController::class], 'createPariwisata');
     Route::get('pariwisata/edit{id}', [AdminController::class], 'edit');
@@ -53,15 +47,13 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function(){
 });
 
 Route::middleware(['auth:sanctum', 'isAPIAgency'])->group(function(){
-    Route::get('paket/', [ContentController::class], 'showPaket');
     Route::post('paket/create', [AgencyController::class], 'store');
     Route::get('paket/edit{id}', [AgencyController::class], 'edit');
     Route::put('paket/update/{id}', [AgencyController::class], 'update');
     Route::delete('paket/delete/{id}', [AgencyController::class], 'delete');
 
 });
-*/
 
-Route::middleware(['auth:sanctum'])->group(function(){
-    Route::post('logout', [AuthController::class], 'logout');
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('logout', [AuthController::class, 'logout']);
 });
