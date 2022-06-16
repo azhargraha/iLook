@@ -13,14 +13,14 @@ class AuthController extends Controller
     public function register(Request $request){
         $role = $request->role;
         if ($role === 'user'){
-            $validator = Validator::make($request->details, [
+            $validator = Validator::make($request->all(), [
                 'username'=> 'required|unique:users,username',
                 'password'=>'required|min:8',
                 'name'=>'required',
                 'phoneNumber'=>'required',
             ]);
         }else {
-            $validator = Validator::make($request->details, [
+            $validator = Validator::make($request->all(), [
                 'username'=> 'required|unique:users,username',
                 'password'=>'required|min:8',
                 'name'=>'required',
@@ -32,23 +32,23 @@ class AuthController extends Controller
         if($validator->fails()){
             return response()->json([
                 'validation_errors' => $validator->messages(),
-            ]);
+            ], 401);
         }else{
             if ($role === 'user'){
                 $user = User::create([
-                    'username'=>$request->details['username'],
-                    'password'=>Hash::make($request->details['password']),
-                    'name'=>$request->details['name'],
-                    'phoneNumber'=>$request->details['phoneNumber'],
+                    'username'=>$request->username,
+                    'password'=>Hash::make($request->password),
+                    'name'=>$request->name,
+                    'phoneNumber'=>$request->phoneNumber,
                     'roleType'=>1
                 ]);
             }else {
                 $user = User::create([
-                    'username'=>$request->details['username'],
-                    'password'=>Hash::make($request->details['password']),
-                    'name'=>$request->details['name'],
-                    'phoneNumber'=>$request->details['phoneNumber'],
-                    'location'=>$request->details['location'],
+                    'username'=>$request->username,
+                    'password'=>Hash::make($request->password),
+                    'name'=>$request->name,
+                    'phoneNumber'=>$request->phoneNumber,
+                    'location'=>$request->location,
                     'roleType'=>2
                 ]);
             }
@@ -59,7 +59,7 @@ class AuthController extends Controller
                 'username'=>$user->name,
                 'token'=>$token,
                 'message'=>'Registered Successfully',
-            ]);
+            ], 200);
         }
     }
     public function login(Request $request){
@@ -71,7 +71,7 @@ class AuthController extends Controller
         if($validator->fails()){
             return response()->json([
                 'validation_errors' => $validator->messages(),
-            ]);
+            ], 401);
         }else {
             $user = User::where('username', $request->username)->first();
 
@@ -79,7 +79,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status'=>401,
                     'message'=>'Invalid credentials',
-                ]);
+                ], 401);
             }else{
                 if($user->roleType == 0){
                     $token = $user->createToken($user->username.'_AdminToken', ['server:admin'])->plainTextToken;
@@ -94,7 +94,7 @@ class AuthController extends Controller
                     'username'=>$user->name,
                     'token'=>$token,
                     'message'=>'Signed in Successfully'
-                ]);
+                ],200);
             }
         }
     }
