@@ -41,33 +41,34 @@ class ContentController extends Controller
     }
 
     public function showPaket(){
-        if (auth('sanctum')->check()){
-            $user_id = auth('sanctum')->user()->id;
-            if ($user_id == 1) {
-                $paket = Paket::all();
-                return response()->json([
-                    'status'=>200,
-                    'paket' => $paket,
-                ]);
-            }else if ($user_id == 2){
-                $paket = Paket::where('userID', $user_id)->get();
-                return response()->json([
-                    'status' => 200,
-                    'paket' => $paket,
-                ]);
-            }else {
-                return response()->json([
-                    'status' => 401,
-                    'message' => 'Access Denied',
-                ]);
-            }
-        }else {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Please login first',
-            ]);
-        }
-        
+        // if (auth('sanctum')->check()){
+        //     $user_id = auth('sanctum')->user()->id;
+        //     if ($user_id == 1) {
+        //         $paket = Paket::all();
+        //         return response()->json([
+        //             'status'=>200,
+        //             'paket' => $paket,
+        //         ]);
+        //     }else if ($user_id == 2){
+        //         $paket = Paket::where('userID', $user_id)->get();
+        //         return response()->json([
+        //             'status' => 200,
+        //             'paket' => $paket,
+        //         ]);
+        //     }else {
+        //         return response()->json([
+        //             'status' => 401,
+        //             'message' => 'Access Denied',
+        //         ]);
+        //     }
+        // }else {
+        //     return response()->json([
+        //         'status' => 401,
+        //         'message' => 'Please login first',
+        //     ]);
+        // }
+        $paket = Paket::all();
+        return response()->json($paket, 200);
     }
 
     public function showKategori(){
