@@ -5,9 +5,27 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Models\Rating;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class RatingController extends Controller
 {
+    public function sendRating(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'rating' =>'required',
+        ]);
+        if ($validator->fails()){
+            return response()->json([
+                'validation_errors' => $validator->messages(),
+            ], 401);
+        }else {
+            $rating = Rating::create([
+                'rating' => $request->rating,
+                'wisataID' => $id,
+            ]);
+            return response()->json($rating, 200);
+        }
+    }
+
     public function getRating($id){
         $rating = Rating::where('wisataID', $id)->pluck('rating')->avg();
         return response()->json([
