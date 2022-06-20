@@ -4,6 +4,7 @@ import axios from 'axios';
 import gsap from 'gsap';
 
 import '../style/PlaceDetails.scss';
+import Rating from '../component/Rating';
 
 const fadeIn = ({ y = -10, duration = .5, stagger = .2, staggerDirection = 1, delay = .2 }) => {
   return {
@@ -34,7 +35,8 @@ const PlaceDetails = () => {
     description: '',
     location: '',
     rating: '',
-    imgSrc: ''
+    imgSrc: '',
+    avgRating: 0.0
   });
 
   useEffect(() => {
@@ -46,6 +48,8 @@ const PlaceDetails = () => {
     })
       .then(res => {
         let data = res.data.pariwisata;
+        let avgRating = res.data.rating ? res.data.rating : 0;
+        console.log(avgRating)
         setPlaceData({
           name: data.nama,
           price: data.harga,
@@ -53,10 +57,10 @@ const PlaceDetails = () => {
           description: data.deskripsi,
           location: data.lokasi,
           rating: data.rating,
-          imgSrc: data.urlGambar
+          imgSrc: data.urlGambar,
+          avgRating: parseFloat(avgRating)
         });
         setIsLoading(false);
-        console.log(res.data.pariwisata);
 
         gsap.from(header.current, fadeIn({ y: 0, duration: 1.4 }));
         gsap.from(subheader.current.childNodes, fadeIn({ y: 20 }));
@@ -82,6 +86,7 @@ const PlaceDetails = () => {
             <section id="right">
               <div className="headings">
                 <h1 ref={header}>{placeData.name}</h1>
+                <Rating value={placeData.avgRating} />
                 <div ref={subheader} className="subheader">
                   <h4>{placeData.location}</h4>
                   <h4>{placeData.category}</h4>
