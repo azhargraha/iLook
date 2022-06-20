@@ -21,6 +21,7 @@ import CreatePlace from './page/CreatePlace';
 import EditPlace from './page/EditPlace';
 import PlaceDetails from './page/PlaceDetails';
 import CreatePackage from './page/CreatePackage';
+import PackageDetails from './page/PackageDetails';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 axios.defaults.withCredentials = true;
@@ -98,6 +99,7 @@ export default function App() {
             {/* tourguide */}
             <Route path='/my-package' element={<MyPackage />} />
             <Route path='/package/create' element={<CreatePackage />} />
+            <Route path='/package/:id' element={<PackageDetails />} />
 
             {/* admin */}
             <Route path='/place' element={<Place />} />
