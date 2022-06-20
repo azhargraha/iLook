@@ -5,6 +5,7 @@ import gsap from 'gsap';
 
 import '../style/PlaceDetails.scss';
 import Rating from '../component/Rating';
+import { storageUri } from '../App';
 
 const fadeIn = ({ y = -10, duration = .5, stagger = .2, staggerDirection = 1, delay = .2 }) => {
   return {
@@ -57,7 +58,7 @@ const PlaceDetails = () => {
           description: data.deskripsi,
           location: data.lokasi,
           rating: data.rating,
-          imgSrc: data.urlGambar,
+          imgSrc: storageUri + data.urlGambar,
           avgRating: parseFloat(avgRating)
         });
         setIsLoading(false);

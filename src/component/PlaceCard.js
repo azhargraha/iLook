@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import '../style/PlaceCard.scss';
 
 import axios from 'axios';
+import { storageUri } from '../App';
 
 const PlaceCard = ({ placeProps, setPlaceData, placeData }) => {
   const {
@@ -37,7 +38,7 @@ const PlaceCard = ({ placeProps, setPlaceData, placeData }) => {
                 </svg>
               </button>
             </div>
-            <img src={urlGambar} alt="" />
+            <img src={storageUri + urlGambar} alt="" />
         </Link>
         <div id="caption-wrapper">
             <Link to={`/place/${wisataID}`}><h3>{nama}</h3></Link>

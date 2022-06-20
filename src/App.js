@@ -41,6 +41,7 @@ gsap.config({
 });
 
 export const TokenContext = React.createContext();
+export const storageUri = 'http://localhost:8000/storage/';
 
 const authReducer = (state, action) => {
   switch(action.type) {
