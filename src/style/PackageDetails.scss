@@ -1,0 +1,64 @@
+.package-details-container {
+    @include page-content;
+    display: flex;
+    height: calc(100vh - 4.6rem);
+    gap: 3rem;
+
+    .subheader {
+        width: 100%;
+        display: flex;
+        gap: 5rem;
+
+        h4 {
+            color: $secondary-dark-2;
+        }
+    }
+
+    
+    section {
+        flex: 1;
+        height: 100%;
+        
+        &#left {
+            img {
+                height: 100%;
+                border-radius: 10px;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        
+        &#right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem;
+
+            .headings {
+                flex: .1;
+                display: flex;
+                flex-direction: column;
+                gap: .4rem;
+
+                h1 {
+                    font-size: 2rem;
+                }
+            }
+
+            .details-wrapper {
+                flex: .9;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                gap: .8rem;
+
+                .desc-wrapper {
+                    flex: 1;
+                    overflow: auto;
+
+                }
+            }
+            
+        }
+    }
+}

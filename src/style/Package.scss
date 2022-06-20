@@ -1,0 +1,17 @@
+.package-container {
+    @include page-content;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+
+    .packages-wrapper {
+        overflow: auto;
+        height: 100%;
+        width: max(40%, 36rem);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

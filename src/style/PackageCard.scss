@@ -1,0 +1,92 @@
+.package-card-container {
+    width: 100%;    
+    
+    #img-wrapper {
+        height: 12rem;
+        position: relative;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        
+        img {
+            width: 100%;
+            object-fit: cover;
+            transition: 
+                180ms ease-out filter,
+                320ms ease-out transform;
+        }
+
+        #buttons-wrapper {
+            z-index: 100;
+            display: none;
+            position: absolute;
+            top: 0;
+            height: 3.4rem;
+            width: 100%;
+            gap: .6rem;
+            padding: .6rem;
+
+            button {
+                all: unset;
+                cursor: pointer;
+            }
+
+            #edit-btn {
+                background-color: $shade-3;
+                border-radius: 100rem;
+                padding: 0 1.4rem;
+                display: flex;
+                align-items: center;
+                transition: 120ms ease-out background-color;
+                
+                h4 {
+                    color: $secondary-dark-1;
+                }
+            }
+            
+            #delete-btn {
+                height: 100%;
+                border-radius: 100rem;
+                background-color: rgb(255, 61, 61);
+                transition: 120ms ease-out background-color;
+
+                svg {
+                    padding: .6rem;
+
+                    path {
+                        stroke: white;
+                    }
+                }
+            }
+
+        }
+        
+        &:hover {
+            img {
+                transform: scale(103%);
+                filter: brightness(75%);
+            }
+
+            #buttons-wrapper {
+                display: flex;
+                justify-content: flex-end;
+
+                #delete-btn {
+                    &:hover {
+                        background-color: red;
+                    }
+                }
+
+                #edit-btn {
+                    &:hover {
+                        background-color: $shade-5;
+                    }
+                }
+            }
+        }
+    }
+
+    #caption-wrapper {
+        padding: 1rem .6rem;
+    }
+}
