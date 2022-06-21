@@ -27,20 +27,23 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('pariwisata/', [ContentController::class, 'showPariwisata']);
 Route::get('pariwisata/search/{lokasi}', [ContentController::class, 'searchPariwisata']);
 Route::get('pariwisata/{id}', [ContentController::class, 'getPariwisataByID']);
+Route::get('pariwisata/{id}/rating', [ContentController::class, 'getRating']);
 
 Route::get('kategori/', [ContentController::class, 'showKategori']);
 
 Route::get('paket/', [ContentController::class, 'showPaket']);
 Route::get('paket/{id}', [ContentController::class, 'getPaketByID']);
+Route::post('paket/{id}/add', [AgencyController::class, 'addPariwisataToPaket']);
 
 Route::get('planner/', [ContentController::class, 'showPlanner']);
 Route::get('planner/{id}', [ContentController::class, 'getPlannerByID']);
 Route::post('planner/create', [PlannerController::class, 'createPlanner']);
 Route::post('planner/{id}/add/{wisataID}', [PlannerController::class, 'addToPlanner']);
 Route::delete('planner/delete/{id}', [PlannerController::class, 'delete']);
+Route::post('pariwisata/create', [AdminController::class, 'createPariwisata']);
 
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function(){
-    Route::post('pariwisata/create', [AdminController::class], 'createPariwisata');
+    
     Route::get('pariwisata/edit{id}', [AdminController::class], 'edit');
     Route::put('pariwisata/update/{id}', [AdminController::class], 'update');
     Route::delete('pariwisata/delete/{id}', [AdminController::class], 'delete');

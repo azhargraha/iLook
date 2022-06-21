@@ -8,6 +8,7 @@ use App\Models\Rating;
 use App\Models\Pariwisata;
 use App\Models\Kategori;
 use App\Models\Paket;
+use App\Models\PaketPariwisata;
 use App\Models\Planner;
 
 use App\Models\PlannerContainer;
@@ -113,6 +114,7 @@ class ContentController extends Controller
         ]);
     }
     
+
     public function sendRating(Request $request, $id){
         $validator = Validator::make($request->all(), [
             'rating' =>'required',
@@ -150,9 +152,11 @@ class ContentController extends Controller
 
     public function getPaketByID($id){
         $paket = Paket::find($id);
+        $pariwisataList = PaketPariwisata::where('paketID', $id)->join('pariwisata', 'pariwisata.wisataID', '=', 'paket_pariwisata_list.wisataID')->get();
         return response()->json([
             'status'=>200,
             'paket' => $paket,
+            'pariwisataList' => $pariwisataList
         ]);
     }
 }
