@@ -37,7 +37,7 @@ class AdminController extends Controller
             $gambar = $request->file('urlGambar');
             $gambar_uploaded_path = $gambar->store('gambar', 'public');
 
-            $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);   
+            $pariwisata->urlGambar = $gambar_uploaded_path;   
             $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
@@ -94,7 +94,7 @@ class AdminController extends Controller
                     }
                     $gambar = $request->file('urlGambar');
                     $gambar_uploaded_path = $gambar->store('gambar', 'public');
-                    $pariwisata->urlGambar = Storage::url($gambar_uploaded_path);
+                    $pariwisata->urlGambar = $gambar_uploaded_path;
                 }              
                 $pariwisata->save();
                 return response()->json([
