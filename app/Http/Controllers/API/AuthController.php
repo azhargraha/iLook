@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -59,6 +61,7 @@ class AuthController extends Controller
                 'username'=>$user->name,
                 'token'=>$token,
                 'message'=>'Registered Successfully',
+                'role'=>$user->roleType
             ], 200);
         }
     }
@@ -83,16 +86,19 @@ class AuthController extends Controller
             }else{
                 if($user->roleType == 0){
                     $token = $user->createToken($user->username.'_AdminToken', ['server:admin'])->plainTextToken;
+                    $key = 0;
                 }else if ($user->roleType == 2){
                     $token = $user->createToken($user->username.'_AgencyToken', ['server:agency'])->plainTextToken;
+                    $key = 2;
                 }else {
                     $token = $user->createToken($user->username.'_Token', ['server:user'])->plainTextToken;
+                    $key = 1;
                 }
 
                 return response()->json([
                     'status'=>200,
                     'username'=>$user->name,
-                    'token'=>$token,
+                    'token'=>$token.$key,
                     'message'=>'Signed in Successfully'
                 ],200);
             }
@@ -100,7 +106,8 @@ class AuthController extends Controller
     }
 
     public function logout(){
-        auth()->user()->tokens()->delete();
+        // auth()->user()->tokens()->delete();
+        Auth::logout();
         return response()->json([
             'status'=> 200,
             'message'=>'Logout successfully',
