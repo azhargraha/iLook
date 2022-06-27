@@ -40,7 +40,6 @@ function Navbar() {
     gsap.from(logo.current, fadeInUp(10, 1.4));
     gsap.from(navMenus.current.childNodes, fadeInUp());
     gsap.from(accMenus.current.childNodes, fadeInUp(10, 1, .4, -1));
-    console.log(token)
   }, []);
 
   return (
@@ -67,7 +66,7 @@ function Navbar() {
         <div ref={navMenus} className="navmenus">
             <NavLink to="/" className="underline">Explore</NavLink>
             <NavLink to="/place" className="underline">Places</NavLink>
-            <NavLink to="/plan" className="underline">Plans</NavLink>
+            {/* <NavLink to="/plan" className="underline">Plans</NavLink> */}
             <NavLink to="/package" className="underline">Packages</NavLink>
             <NavLink to="/privacy-policy" className="underline">Privacy policy</NavLink>
             <NavLink to="/about" className="underline">About</NavLink>
