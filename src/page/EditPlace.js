@@ -6,6 +6,7 @@ import '../style/CreatePlace.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
+import { storageUri } from '../App';
 
 const EditPlace = () => {
     const { state } = useLocation();
@@ -150,7 +151,7 @@ const EditPlace = () => {
                       {
                         imgSrc ? 
                         (<>
-                          <img src={imgSrc} className="image-preview" />
+                          <img src={storageUri + imgSrc} className="image-preview" />
                           <div id="button-wrapper">
                             <button type="button" id="delete-btn" onClick={clearFile}>
                                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

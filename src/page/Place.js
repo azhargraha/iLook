@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useContext } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Searchbar from '../component/Searchbar';
 
@@ -8,6 +8,8 @@ import gsap from 'gsap';
 
 import '../style/Place.scss';
 import axios from 'axios';
+import { TokenContext } from '../App';
+import CookieService from '../CookieService';
 
 function useWindowSize() {
   const [width, setWidth] = useState(0);
@@ -23,6 +25,10 @@ function useWindowSize() {
 }
 
 const Place = () => {
+  const tokenContext = useContext(TokenContext);
+  const [token, tokenDispatch] = tokenContext.reducer;
+  const tokenType = CookieService.getRole();
+
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -39,6 +45,7 @@ const Place = () => {
   }
 
   useEffect(() => {
+    console.log(tokenType)
     const source = axios.CancelToken.source();
 
     setIsLoading(true);
@@ -91,7 +98,7 @@ const Place = () => {
   return (
     <div className="place-container">
       <Searchbar placeholder="Search place here" getInput={setInputValue} value={inputValue} onSubmit={e => e.preventDefault()} />
-      <Button label='Create new place' onClick={createNewPlace} />
+      {tokenType === 'admin' && <Button label='Create new place' onClick={createNewPlace} />}
       {isLoading === true && (<p>Loading...</p>)}
       {placeData.length !== 0 && isLoading === false && (<Results columnsNumber={colNum} posts={placeData} setPlaceData={setPlaceData} placeData={placeData} />)}
       {placeData.length === 0 && isLoading === false && (<p>Not found</p>)}
