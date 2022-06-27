@@ -38,7 +38,7 @@ class AdminController extends Controller
             $gambar_uploaded_path = $gambar->store('gambar', 'public');
 
             $pariwisata->urlGambar = $gambar_uploaded_path;   
-            $pariwisata->rating = NULL;
+            // $pariwisata->rating = NULL;
             $pariwisata->save();
             return response()->json([
                 'status'=>200,

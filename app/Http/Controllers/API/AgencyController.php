@@ -23,11 +23,11 @@ class AgencyController extends Controller
                 'validation_errors' => $validator->messages(),
             ]);
         }else{
-            if (auth('sanctum')->check()){
+            // if (auth('sanctum')->check()){
                 $paket = new Paket;
                 $paket->nama = $request->nama;
                 $paket->deskripsi = $request->deskripsi;
-                $gambar = $request->file('urlGambar');
+                $gambar = $request->file('thumbnailUrl');
                 $gambar_uploaded_path = $gambar->store('gambar', 'public');
 
                 $paket->thumbnailUrl = $gambar_uploaded_path;
@@ -37,12 +37,12 @@ class AgencyController extends Controller
                     'status'=>200,
                     'message'=>'Data has been added successfully',
                 ]);
-            }else {
-                return response()->json([
-                    'status' => 401,
-                    'message' => 'Please login first',
-                ]);
-            }
+            // }else {
+            //     return response()->json([
+            //         'status' => 401,
+            //         'message' => 'Please login first',
+            //     ]);
+            // }
             
         }
     }
@@ -78,18 +78,16 @@ class AgencyController extends Controller
             $paket = Paket::find($id);
             if($paket){
                 $paket->nama = $request->nama;
-                $paket->harga = $request->harga;
                 $paket->deskripsi = $request->deskripsi;
-                $paket->planID = $request->lokasi;
                 if($request->hasFile('thumbnailUrl')){
                     $gambarURL = $paket->thumbnailUrl;
                     $path = substr($gambarURL, strpos($gambarURL, 'gambar/') + 7);
                     if(Storage::disk('gambar')->exists($path)){
                         Storage::disk('gambar')->delete($path);
                     }
-                    $gambar = $request->file('urlGambar');
+                    $gambar = $request->file('thumbnailUrl');
                     $gambar_uploaded_path = $gambar->store('gambar', 'public');
-                    $pariwisata->urlGambar = $gambar_uploaded_path;
+                    $paket->thumbnailUrl = $gambar_uploaded_path;
                 }            
                 $paket->save();
                 return response()->json([
