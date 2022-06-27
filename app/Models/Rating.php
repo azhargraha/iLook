@@ -12,5 +12,6 @@ class Rating extends Model
     protected $primaryKey = 'ratingID';
     protected $fillable = [
         'rating',
+        'wisataID'
     ];
 }
