@@ -69,6 +69,7 @@ const Register = () => {
     e.preventDefault();
 
     axios.get('sanctum/csrf-cookie').then(response => {
+      console.log(accountInfo)
       axios.post('api/register', accountInfo)
           .then(res => {
             console.log(res)
@@ -100,23 +101,23 @@ const Register = () => {
     if (role === 'user') {
       setAccountInfo({
         role: role,
-        details: {
+        // details: {
           name,
           username,
           password, 
           phoneNumber
-        }
+        // }
       });
     } else {
       setAccountInfo({
         role: role,
-        details: {
+        // details: {
           name,
           username,
           password, 
           phoneNumber,
           location
-        }
+        // }
       });
     }
   }, [role, name, username, password, phoneNumber, location]);
