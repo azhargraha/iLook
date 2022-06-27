@@ -11,6 +11,17 @@ class CookieService {
         cookie.set(key, value, options);
     }
 
+    getRole() {
+        if (this.get('access_token')) {
+            let token = this.get('access_token');
+            let roleCode = token.substr(token.length - 1);
+            if (roleCode === '0') return 'admin';
+            if (roleCode === '2') return 'tourguide';
+        }
+
+        return 'user';
+    }
+
     remove(key) {
         cookie.remove(key);
     }
