@@ -3,29 +3,30 @@ import Textfield from '../component/Textfield';
 import Button from '../component/Button';
 import '../style/CreatePackage.scss';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { storageUri } from '../App';
 
-const CreatePackage = () => {
+const EditPackage = () => {
     const navigate = useNavigate();
+    const { state } = useLocation();
 
-    const [imgSrc, setImgSrc] = useState(null);
     const [imgData, setImgData] = useState(null);
+    const [imgSrc, setImgSrc] = useState(state ? state.thumbnailUrl : null);
     const [isDragOver, setIsDragOver] = useState(false);
     const validFileType = ['image/jpeg', 'image/jpg', 'image/png'];
 
-    const [packageName, setPackageName] = useState(null);
-    const [description, setDescription] = useState(null);
+    const [packageName, setPackageName] = useState(state ? state.nama : null);
+    const [description, setDescription] = useState(state ? state.deskripsi : null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const fd = new FormData();
         fd.append('nama', packageName);
         fd.append('deskripsi', description);
-        fd.append('thumbnailUrl', imgData);
-        console.log(fd)
+        if (imgData) fd.append('thumbnailUrl', imgData);
+
         axios.get('sanctum/csrf-cookie').then(response => {
-          axios.post(`api/paket/create`, fd, {
+          axios.post(`api/paket/update/${state.paketID}`, fd, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -114,7 +115,7 @@ const CreatePackage = () => {
                       {
                         imgSrc ? 
                         (<>
-                          <img src={imgSrc} className="image-preview" />
+                          <img src={storageUri + imgSrc} className="image-preview" />
                           <div id="button-wrapper">
                             <button type="button" id="delete-btn" onClick={clearFile}>
                                 <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,8 +136,8 @@ const CreatePackage = () => {
 
                     </div>
                   </div>
-                    <Textfield type='text' label="Package title" placeholder='Enter package title' getInput={setPackageName} required />
-                    <Textfield type='text' label="Description" placeholder='Enter description' getInput={setDescription} required />
+                    <Textfield type='text' label="Package title" placeholder='Enter package title' getInput={setPackageName} valueProp={packageName} required />
+                    <Textfield type='text' label="Description" placeholder='Enter description' getInput={setDescription} valueProp={description} required />
                 </div>
             </div>
 
@@ -149,4 +150,4 @@ const CreatePackage = () => {
   )
 }
 
-export default CreatePackage;
+export default EditPackage;

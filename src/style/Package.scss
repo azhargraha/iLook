@@ -6,6 +6,10 @@
     align-items: center;
     gap: 1.6rem;
 
+    .button-wrapper {
+        width: max(40%, 36rem);
+    }
+    
     .packages-wrapper {
         overflow: auto;
         height: 100%;
