@@ -10,6 +10,7 @@ use App\Models\Kategori;
 use App\Models\Paket;
 use App\Models\PaketPariwisata;
 use App\Models\Planner;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\PlannerContainer;
 
@@ -116,7 +117,7 @@ class ContentController extends Controller
     
 
     public function sendRating(Request $request, $id){
-        $validator = Validator::make($request->all(), [
+        $validator = validator::make($request->all(), [
             'rating' =>'required',
         ]);
         if ($validator->fails()){
